@@ -1,0 +1,101 @@
+#macro(addUserModel)
+    <!-- Modal -->
+    <div class="modal fade remove-data" id="addUserModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                    <h4 class="modal-title" id="myModalLabel">新增用户</h4>
+                </div>
+                <div class="modal-body">
+                    <form class="form-horizontal" role="form" id="addUserForm">
+                        <div class="form-group">
+                            <label for="erpCode" class="col-sm-2 control-label">用户名</label>
+                            <div class="col-sm-4">
+                                <input type="text" class="form-control" id="erpCode" name="erpCode" placeholder="erp帐号">
+                                <p class="help-block">请输入正确的erp帐号</p>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                    <button type="button" class="btn btn-primary" onclick="addWorkflowUser()">保存</button>
+                </div>
+            </div>
+        </div>
+    </div>
+#end
+
+#macro(model $modalId $title $method)
+<!-- Modal -->
+<div class="modal fade" id="$modalId" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">$title</h4>
+            </div>
+            <div class="modal-body">
+                加载中...
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                #if($method != '')
+                    <button type="button" class="btn btn-primary" onclick="${method}()">保存</button>
+                #end
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+#end
+
+#macro(pagination $currentPage $totalPage  $currentPageIdInForm $queryForm)
+
+
+<div id="pageInfo" ></div>
+    <script type='text/javascript'>
+        var options = {
+            currentPage: $currentPage,
+            totalPages: $totalPage,
+            numberOfPages: 5,
+            alignment:'right',
+            useBootstrapTooltip:false,
+            tooltipTitles: function (type, page, current) {
+                switch (type) {
+                    case "first":
+                        return "Go to First Page";
+                    case "prev":
+                        return "Go to Previous Page";
+                    case "next":
+                        return "Go to Next Page";
+                    case "last":
+                        return "Go to Last Page";
+                    case "page":
+                        return "Go to page " + page;
+                }
+            },
+            itemContainerClass: function (type, page, current) {
+                return (page === current) ? "active" : "pointer-cursor";  
+            },   
+            pageUrl: function(type, page, current){  
+                return "#";  
+            },
+            onPageClicked:function(e,originalEvent,type,page){
+                originalEvent.preventDefault();
+                originalEvent.stopPropagation();
+
+                $('#'+'$currentPageIdInForm').val(page);
+                $('#'+'$queryForm').submit();
+
+            }
+        }
+        
+        if($totalPage>1) {
+        	$('#pageInfo').bootstrapPaginator(options);
+        }
+        </script>
+#end

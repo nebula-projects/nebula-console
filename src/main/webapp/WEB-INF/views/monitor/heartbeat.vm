@@ -1,0 +1,75 @@
+ 
+<div>
+    <ul class="breadcrumb">
+        <li>
+            <a href="#springUrl('')/">首页</a>
+        </li>
+        <li>
+            <a href="#springUrl('')/monitor/main">流程监控</a>
+        </li>
+        <li>
+            节点心跳
+        </li>
+    </ul>
+</div>
+ 
+<form   id="heartbeatForm" action="#springUrl('')/monitor/${selectedMonitor.id}/heartbeats" method="GET">
+  <input type="hidden" id="currentPage" name="currentPage" value="$!pagination.currentPage">
+</form>
+
+<div class="row">
+    <div class="box col-md-12">
+        <div class="box-inner">
+            <div class="box-header well" data-original-title="">
+                <h2><i class="glyphicon glyphicon-edit"></i>流程/活动名: ${selectedMonitor.name}  版本: ${selectedMonitor.version}  心跳</h2>
+
+            </div>
+            <div class="box-content">
+                <table class="table table-striped table-hover">
+                    <thead>
+                    <tr>
+                        <th class="text-center">主机名</th>
+                        <th class="text-center">IP</th>
+                        <th class="text-center">工作路径</th>
+                        <th class="text-center">进程号</th>
+                        <th class="text-center">最近心跳时间</th>
+                        <th class="text-center">上一次心跳（秒）</th>
+                        <th class="text-center">状态</th>
+                        <th class="text-center">操作</th>
+                    </tr>
+                    </thead>
+
+                    <tbody>
+
+                        #if ($errors)
+                        <tr class="text-center">
+                            <td style="background-color:white; color: red">$!errors</td>
+                        </tr>
+                        #end 
+                        #foreach($heartbeat in $heartbeats)
+                          #set($lastHeartbeat=($currentTime - $heartbeat.heartbeatTime.getTime())/1000) 
+                        <tr>
+                            <td class="text-center">$!heartbeat.host</td>
+                            <td class="text-center">$!heartbeat.ip</td>
+                            <td class="text-center">$!heartbeat.workingDir</td>
+                            <td class="text-center">$!heartbeat.processId</td>
+                            <td class="text-center">$!dateTool.format('yyyy-MM-dd HH:mm:ss', $heartbeat.heartbeatTime)</td>
+                            <td class="text-center">${lastHeartbeat}</td>
+                            <td class="text-center">  <span class="label  label-default label-success">有效</span> <span class="label  label-default label-danger">禁用</span> </td>
+                            <td class="text-center"> 
+                                <a class="btn btn-info btn-sm" href="#springUrl('')/monitor/${selectedMonitor.id}/${heartbeat.id}/heartbeatconfig"><i class="glyphicon glyphicon-edit icon-white"></i>监控</a>
+                                <a class="btn btn-danger btn-sm" href="#springUrl('')/monitor/heartbeatconfig/delete/${heartbeat.id}/"><i class="glyphicon glyphicon-trash icon-white"></i>删除</a>
+                             </td>
+                        </tr>
+                        #end
+                    </tbody>
+                </table>
+                #pagination($!pagination.currentPage, $!pagination.totalPage, 'currentPage', 'heartbeatForm')
+            </div>
+        </div>
+    </div>
+</div>
+
+ 
+
+ 

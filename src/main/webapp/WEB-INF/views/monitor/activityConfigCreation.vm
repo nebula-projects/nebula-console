@@ -1,0 +1,74 @@
+  
+
+<div id="activityConfigCreation" class="box">
+        <div class="box-inner"> 
+            
+                <div class="box-content">
+                  <form class="form-horizontal" role="form" action="#springUrl('')/monitor/${registrationId}/${monitorId}/activityconfig#if(${config.id})/${config.id}#end" method="POST">
+                     <input type="hidden" id="id" name="id" value="$!{config.id}">
+                     <input type="hidden" id="monitorId" name="monitorId" value="$monitorId"> 
+                     <input type="hidden" id="monitorType" name="monitorType" value="ACTIVITY">
+                     <input type="hidden" id="enabled" name="enabled" value="true"> 
+                     <div class="form-group"> 
+                <label for="inputEmail3" class="col-sm-2 control-label">未完成活动数:</label>
+                <div class="col-sm-1">
+                  <input type="text" class="form-control" id="uncompletedNumber" name="uncompletedNumber" value="$!{config.uncompletedNumber}">
+                </div>
+
+              <div class="form-group">
+                <label for="inputPassword3" class="col-sm-2 control-label">监控间隔:</label>
+                            <label class="radio-inline">
+                    <input type="radio" name="intervalMin" id="interval1" value="1" #if (!$!{config.intervalMin} || $!{config.intervalMin}=='1') checked#end>1分钟
+                </label>
+                <label class="radio-inline">
+                  <input type="radio" name="intervalMin" id="interval2" value="5" #if ($!{config.intervalMin}=='5') checked#end>5分钟
+                </label>
+              </div>
+                          <br>
+              <div class="form-group">
+                <label for="inputPassword3" class="col-sm-2 control-label">连续次数:</label>
+                <div class="col-sm-1">
+                  <input type="text" class="form-control" id="consecutiveTimes" name="consecutiveTimes" value="$!{config.consecutiveTimes}">
+                </div>
+                            <label for="inputPassword3" class="col-sm-1 control-label">报警级别:</label>
+                <label class="radio-inline">
+                    <input type="radio" name="priority" id="priority1" value="WARNING" #if (!$!{config.priority} || $!{config.priority}=='WARNING') checked#end>警告
+                </label>
+                <label class="radio-inline">
+                  <input type="radio" name="priority" id="priority2" value="SEVERITY"  #if ($!{config.priority}=='SEVERITY') checked#end>严重
+                </label>
+              </div>
+              <div class="form-group">
+                <label for="inputPassword3" class="col-sm-2 control-label">报警方式:</label>
+                            <label class="checkbox-inline">
+                <input type="checkbox" id="emailAlarm" name="emailAlarm" value="true" #if ($!{config.emailAlarm}==true) checked#end>邮件
+                </label>
+                <label class="checkbox-inline">
+                <input type="checkbox" id="mobileAlarm" name="mobileAlarm" value="true" #if ($!{config.mobileAlarm}==true) checked#end>短信
+                </label>
+              </div>
+              <div class="form-group">
+                <label for="inputPassword3" class="col-sm-2 control-label">邮箱：</label>
+                             <div class="col-sm-4">
+                  <input type="text" class="form-control" id="emails" name="emails" value="$!{config.emails}">
+                </div>
+                 <span class="input-group-btn"><button class="btn btn-default"><i class="glyphicon glyphicon-plus blue"></i></button> </span> 
+              </div>
+              <div class="form-group">
+                <label for="inputPassword3" class="col-sm-2 control-label">手机：</label>
+                             <div class="col-sm-4">
+                  <input type="text" class="form-control" id="mobiles" name="mobiles" value="$!{config.mobiles}">
+                </div>
+                 <span class="input-group-btn"><button class="btn btn-default"><i class="glyphicon glyphicon-plus blue"></i></button> </span> 
+              </div>
+ 
+              <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                  <button type="submit" class="btn btn-default">确定</button>
+                </div>
+              </div>
+          </form>
+                 </div>
+         </div> 
+</div> 
+

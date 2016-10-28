@@ -1,0 +1,218 @@
+ <div class="right_col" role="main">
+
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="x_panel">
+                                <div class="x_title">
+                                    <h2>Instance</h2>
+                                    <div class="clearfix"></div>
+                                </div>
+                                <div class="x_content">
+                                                                      <form id="instanceQueryForm" action="#springUrl('')/instance" method="GET">
+                                                                                <input type="hidden" name="instanceId" id="instanceId" value="$!instanceId">
+                                                                                <input type="hidden" id="currentPage" name="currentPage" value="$!pagination.currentPage">
+                                                                       </form>
+
+                                    <p>Please input instance id for search:</p>
+                                        <form id="searchWorkflow" action="#springUrl('')/instance" method="POST">
+                                                <div class="input-group col-sm-4">
+                                                	<input type="text" name="instanceId" value="$!instanceId" id="instanceId" placeholder="Input instance id" class="form-control">
+                                                  <span class="input-group-btn">
+                                                   <button type="submit" class="btn btn-primary">Search!</button>
+                                                  </span> 
+                                                </div>
+                                       </form>
+                                    <!-- start project list -->
+                                    <table id="eventsTable" class="table table-striped projects">
+                                        <thead>
+                                            <tr>
+                                                <th style="width: 1%">No.</th>
+                                                <th style="width: 8%">Event ID</th>
+                                                <th style="width: 8%">Previous ID</th>
+                                                <th style="width: 20%">Registration ID</th>
+                                                <th>Event Type</th>
+                                                <th>Created Date</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        
+                                           #foreach($event in $events)
+                                            <tr row-key="$foreach.count">
+                                                <td>
+                                                #set( $recordNo = ($!pagination.currentPage - 1) * $!pagination.pageSize + $foreach.count )
+                                                $recordNo
+                                                </td>
+                                                <td>
+                                                    $event.eventId
+                                                </td>
+                                                <td>
+                                                    $event.precedingId
+                                                </td>
+                                                <td>
+                                                    $event.registrationId
+                                                </td>
+
+                                                <td>
+                                                    $event.eventType
+                                                </td>
+
+                                                <td>
+                                                    $!dateTool.format('yyyy-MM-dd HH:mm:ss', $event.timestamp)
+                                                </td>
+
+                                            </tr>
+                                          #end
+                                        </tbody>
+                                    </table>
+                                    <!-- end project list -->
+                                      #pagination($!pagination.currentPage,$!pagination.totalPage, 'currentPage', 'instanceQueryForm')
+                                </div>
+                            </div>
+                        </div>
+                         
+                                 <div class="clearfix"></div>
+                                 <p>
+                                 
+                                  #foreach($event in $events)
+                                     
+	                                     <div id="eventDetail$foreach.count" class="col-md-6 col-sm-6 col-xs-12 animated fadeInDown" hidden>
+	                                              
+	                                            <div class="well profile_view"> 
+	                                                
+	                                                <div class="col-xs-12 bottom">
+	                                                    <div class="col-xs-12 col-sm-12 emphasis">
+	                                                       <strong>$event.eventType</strong>
+	                                                    </div> 
+	                                                  </div>
+	                                                <div class="col-sm-12">  
+	                                                </div>
+	                                                
+	                                                    #if($event.workflowProfile)
+		                                                    <div class="left col-xs-8">
+		                                                        <h2><i class="glyphicon glyphicon-star"></i>WorkflowProfile</h2>
+		                                                        <ul class="list-unstyled">
+		                                                            
+		                                                            <li><i class="fa fa-star-o"></i> <strong>Name:</strong> $event.workflowProfile.name</li> 
+		                                                            <li><i class="fa fa-star-o"></i> <strong>Version:</strong> $event.workflowProfile.version</li>
+		                                                            #if($event.workflowProfile.startTime)
+																															  	<li><i class="fa fa-star-o"></i> <strong>StartTime:</strong> $!dateTool.format('yyyy-MM-dd HH:mm:ss', $event.workflowProfile.startTime)</li> 
+																															  #end
+		                                                            #if($event.workflowProfile.interval)
+																															  	<li><i class="fa fa-star-o"></i> <strong>Interval:</strong> $event.workflowProfile.interval (s)</li> 
+																															  #end
+		                                                            #if($event.workflowProfile.startTime || $event.workflowProfile.interval)
+																															  	<li><i class="fa fa-star-o"></i> <strong>Serial:</strong> $event.workflowProfile.serial</li> 
+																															  #end
+		                                                        </ul>
+		                                                    </div>
+	                                                    #end
+	                                                     
+	                                                    #if($event.startProfile)
+		                                                    <div class="left col-xs-8">
+		                                                        <h2>StartMethod</h2>
+		                                                        <ul class="list-unstyled">
+		                                                            
+		                                                            <li><i class="fa fa-star-o"></i> <strong>Name:</strong> $event.startProfile.name</li> 
+		                                                            <li><i class="fa fa-star-o"></i> <strong>ReturnType:</strong> #if($event.startProfile.returnType) $event.startProfile.returnType #else Void #end</li>
+		                                                            <li><i class="fa fa-star-o"></i> <strong>Parameters:</strong> $event.startProfile.parameterTypes</li>  
+		                                                        </ul>
+		                                                    </div>
+	                                                    #end
+	                                                    
+	                                                    #if($event.activityProfile)
+		                                                    <div class="left col-xs-8">
+		                                                        <h2>ActivityProfile</h2>
+		                                                        <ul class="list-unstyled"> 
+		                                                            <li><i class="fa fa-star-o"></i> <strong>Name:</strong> $event.activityProfile.activity</li> 
+		                                                            <li><i class="fa fa-star-o"></i> <strong>Version:</strong> $event.activityProfile.version</li> 
+		                                                        </ul>
+		                                                    </div>
+	                                                    #end
+	                                                    
+	                                                    #if($event.methodProfile)
+		                                                    <div class="left col-xs-8">
+		                                                        <h2>ActivityMethod</h2>
+		                                                        <ul class="list-unstyled">
+		                                                            
+		                                                            <li><i class="fa fa-star-o"></i> <strong>Name:</strong> $event.methodProfile.name</li> 
+		                                                            <li><i class="fa fa-star-o"></i> <strong>ReturnType:</strong> #if($event.methodProfile.returnType) $event.methodProfile.returnType #else  java.lang.Void #end</li>
+		                                                            <li><i class="fa fa-star-o"></i> <strong>Parameters:</strong> $event.methodProfile.parameterTypes</li>  
+		                                                        </ul>
+		                                                    </div>
+	                                                    #end
+	                                                    
+	                                                    #if($event.input)
+                                                        #set($inputs="")
+		                                                    #if(!$list.isEmpty($event.input.inputs))
+		                                                       
+		                                                       #foreach($input in $event.input.inputs)
+		                                                         #if($foreach.hasNext ) 
+		                                                            #set($inputs=$inputs+$input+", ")
+		                                                         #else
+		                                                            #set($inputs=$inputs+$input)
+		                                                         #end
+		                                                         
+		                                                       #end
+	
+		                                                    #end
+		                                                    <div class="left col-xs-8">
+		                                                        <h2>Input</h2>
+		                                                        <ul class="list-unstyled"> 
+		                                                            <li><i class="fa fa-star-o"></i> <strong>Input:</strong>[$inputs]</li>
+		                                                        </ul>
+		                                                    </div>
+	                                                    #end
+	                                                    
+	                                                    #if($event.realms)
+		                                                    <div class="left col-xs-8">
+		                                                        <h2>Realms</h2>
+		                                                        <ul class="list-unstyled"> 
+		                                                            <li><i class="fa fa-star-o"></i> <strong>Realms:</strong> $event.realms</li>  
+		                                                        </ul>
+		                                                    </div>
+	                                                    #end
+	                                                    
+	                                                    #if($event.name && $event.period)
+		                                                    <div class="left col-xs-8"> 
+		                                                        <ul class="list-unstyled"> 
+		                                                            <li><i class="fa fa-star-o"></i> <strong>Name:</strong> $event.name</li>
+		                                                            <li><i class="fa fa-star-o"></i> <strong>Period:</strong> $event.period</li>  
+		                                                        </ul>
+		                                                    </div>
+	                                                    #end
+	                                                    
+	                                                   <div class="left col-xs-8">
+	                                                   </div>
+	                                                   
+	                                                 
+	                                               
+	                                            </div>
+	                                        </div>
+                                    #end
+                       
+                
+                    </div>
+                </div>
+
+
+            </div>
+
+            <script>
+            
+             function showDetail(rowId){
+                $("div.animated").hide();
+                $('#eventDetail'+rowId).show();
+             }
+            
+             $(function () {
+              $('#eventsTable').on('click', 'tr' , function (event) {
+                  
+                  var rowId = $(this).attr("row-key");
+                  console.log(rowId);
+                  showDetail(rowId);
+     
+            })
+            });
+             
+            </script>

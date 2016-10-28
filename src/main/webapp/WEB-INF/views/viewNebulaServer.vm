@@ -1,0 +1,78 @@
+ <div class="right_col" role="main">
+                        <div class="col-md-12 col-sm-12 col-xs-12">
+
+                         <div class="" role="tabpanel" data-example-id="togglable-tabs">
+                                        <ul id="myTab" class="nav nav-tabs bar_tabs" role="tablist">
+                                            <li role="presentation" class="active"><a href="#tab_content1" id="home-tab" role="tab" data-toggle="tab" aria-expanded="true"><i class="fa fa-calendar-o"></i>Nebula Server</a>
+                                            </li>
+                                        </ul>
+                                        <div id="myTabContent" class="tab-content">
+                                            <div role="tabpanel" class="tab-pane fade active in" id="tab_content1" aria-labelledby="home-tab">
+
+                                                                            <div class="x_panel">
+                                <div class="x_title">
+                                    <h2>Basic Information</h2>
+
+                                    <div class="clearfix"></div>
+                                </div>
+                                <div class="x_content">
+                                    <div id="nebulaServerErrorInfo"><ul class="parsley-errors-list filled" id="parsley-1" ><li class="parsley-required" id="nebulaServerErrors"></li></ul></div>
+                                    <form id="viewnebulaserver" data-parsley-validate data-parsley-excluded="input[type=checkbox],input[id=servers]" class="form-horizontal form-label-left" action="#springUrl('')/nebulaserver" method="POST" >
+                                        <input type="hidden" name="id" id="id"  value="$!nebulaserver.id">
+                                        <div class="form-group">
+                                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">Host: <span class="required">*</span>
+                                            </label>
+                                            <div class="col-md-3 col-sm-3 col-xs-6">
+                                                <input type="text" id="host" name="host" value="$!nebulaserver.host" #if($!nebulaserver.id) readonly #end placeholder="host" required  data-parsley-maxlength="255" data-parsley-maxlength-message="Host at most 255 characters"  class="form-control col-md-7 col-xs-12">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name">Description:
+                                            </label>
+                                            <div class="col-md-3 col-sm-3 col-xs-6">
+                                                 <textarea class="form-control" name="description" rows="3" data-parsley-trigger="keyup"  data-parsley-maxlength="255"  data-parsley-maxlength-message="Description at most 255 characters">$!nebulaserver.description</textarea>
+                                            </div>
+
+                                        </div>
+
+                                         <div class="clearfix"></div>
+                                        <div class="ln_solid"></div>
+                                        <div class="form-group">
+                                            <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                                                  <button type="submit" class="btn btn-success" onclick="save()">Save</button>
+                                            </div>
+                                        </div>
+
+                                    </form>
+                                </div>
+                            </div>
+                                            </div>
+
+
+                    <script>
+
+                     $(function() {
+                        $('#viewnebulaserver').submit(function(e) {
+                            e.preventDefault();
+                            if ( $(this).parsley().isValid() ) {
+                                $.ajax({
+                                                type:'POST',
+                                                url:'#springUrl("")/nebulaserver',
+                                                data: $("#viewnebulaserver").serialize(),
+                                                success: function(data){
+                                                    if (data == 'success') {
+                                                         window.location.href = "#springUrl('')/nebulaservers"
+                                                    } else {
+                                                        $('#nebulaserverErrors').text(data);
+                                                        $('#nebulaserverErrorInfo').show();
+                                                    }
+                                                },
+                                                error:function(data){
+                                                    alert("Error, try it later!")
+                                                }
+                                            });
+                            }
+                        });
+                    });
+
+                   </script>

@@ -1,0 +1,98 @@
+ <div class="right_col" role="main">
+            	 
+         
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="x_panel">
+                                <div class="x_title">
+                                    <h2>用户</h2>
+                                    <ul class="nav navbar-right panel_toolbox">
+                                        <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                        </li>
+                                        <li class="dropdown">
+                                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                                            <ul class="dropdown-menu" role="menu">
+                                                <li><a href="#">Settings 1</a>
+                                                </li>
+                                                <li><a href="#">Settings 2</a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                        <li><a class="close-link"><i class="fa fa-close"></i></a>
+                                        </li>
+                                    </ul>
+                                    <div class="clearfix"></div>
+                                </div>
+                                <div class="x_content">
+
+                                    <p>Simple table with project listing with progress and editing options</p>
+                          
+                                                <div class="input-group col-sm-4">
+                                                	<input type="text" placeholder="输入用户名" class="form-control">
+                                                    <span class="input-group-btn">
+                                            <button type="button" class="btn btn-primary">Search!</button>
+                                        </span>
+                                                    
+                                                </div>
+                                  
+                                    <!-- start project list -->
+                                    <table class="table table-striped projects">
+                                        <thead>
+                                            <tr>
+                                                <th style="width: 1%">#</th>
+                                                <th style="width: 10%">用户名</th>
+                                                <th>姓名</th>
+                                                <th>联系电话/邮箱</th>
+                                                <th>状态</th>
+                                                <th>注册时间</th>
+                                                <th style="width: 20%">编辑</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>1</td>
+                                                <td>
+                                                    <a>Pesamakini Backend UI</a>
+                                                    <br />
+                                                    <small>Created 01.01.2015</small>
+                                                </td>
+                                                <td>
+                                                </td>
+                                                <td class="project_progress">
+
+                                                </td>
+
+                                                <td>
+                                                    <button type="button" class="btn btn-success btn-xs">Success</button>
+                                                </td>
+                                                <td>
+                                                    2015/5/28
+                                                </td>
+                                                <td>
+                                                    <a href="#" class="btn btn-primary btn-xs"><i class="fa fa-folder"></i> View </a>
+                                                    <a href="#" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i> Edit </a>
+                                                    <a href="#" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i> Delete </a>
+                                                </td>
+                                            </tr>
+                                          
+                                        </tbody>
+                                    </table>
+                                    <!-- end project list -->
+                   <ul class="pagination pagination-centered">
+                        <li><a href="#">Prev</a></li>
+                        <li class="active">
+                            <a href="#">1</a>
+                        </li>
+                        <li><a href="#">2</a></li>
+                        <li><a href="#">3</a></li>
+                        <li><a href="#">4</a></li>
+                        <li><a href="#">Next</a></li>
+                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>

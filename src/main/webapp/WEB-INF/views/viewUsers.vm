@@ -1,0 +1,110 @@
+ <div class="right_col" role="main">
+
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="x_panel">
+                                <div class="x_title">
+                                    <h2>User</h2>
+                                    <div class="clearfix"></div>
+                                </div>
+                                <div class="x_content">
+                                                                      <form id="userQueryForm" action="#springUrl('')/users" method="GET">
+                                                                                	<input type="hidden" name="username" id="username" value="$!username">
+                                                                                <input type="hidden" id="currentPage" name="currentPage" value="$!pagination.currentPage">
+                                                                       </form>
+
+                                    <p>Please input username for search:</p>
+                                        <form id="searchUsers" action="#springUrl('')/users/search" method="POST">
+                                                <div class="input-group col-sm-4">
+                                                	<input type="text" name="username" id="username" placeholder="Input Username" class="form-control">
+                                                  <span class="input-group-btn">
+                                                   <button type="submit" class="btn btn-primary">Search</button>
+                                                  </span> 
+                                                </div>
+                                       </form>
+                                    <!-- start project list -->
+                                    <table class="table table-striped projects">
+                                        <thead>
+                                            <tr>
+                                                <th style="width: 1%">No.</th>
+                                                <th style="width: 10%">Username</th>
+                                                <th>Full Name</th>
+                                                <th>Mobile Phone</th>
+                                                <th>Email</th>
+                                                <th>Status</th>
+                                                <th>Registration Date</th>
+                                                <th style="width: 20%">Operations</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        
+                                           #foreach($user in $users)
+                                            <tr>
+                                                <td>
+                                                #set( $recordNo = ($!pagination.currentPage - 1) * $!pagination.pageSize + $foreach.count )
+                                                $recordNo
+                                                </td>
+                                                <td>
+                                                    $user.username
+                                                </td>
+                                                <td>
+                                                    $user.nickname
+                                                </td>
+                                                <td>
+                                                    $!user.mobile
+                                                </td>
+                                                <td>
+                                                    $!user.email
+                                                </td>
+
+                                                <td>
+                                                  #if($user.status==1)
+                                                    <button type="button" class="btn btn-success btn-xs">Enabled</button>
+                                                  #else
+                                                    <button type="button" class="btn btn-danger btn-xs">Disabled</button>
+                                                  #end
+                                                </td>
+                                                <td>
+                                                    $!dateTool.format('yyyy-MM-dd HH:mm:ss', $user.createdDate)
+                                                </td>
+                                                <td> 
+                                                    <a href="#springUrl('')/users/$user.username" class="btn btn-primary btn-xs"><i class="fa fa-pencil"></i> Edit </a>
+                                                    <a href="#" class="btn btn-danger btn-xs" onclick="deleteUser('$user.username')"><i class="fa fa-trash-o"></i> Delete </a>
+                                                </td>
+                                            </tr>
+                                          #end
+                                        </tbody>
+                                    </table>
+                                    <!-- end project list -->
+                                      #pagination($!pagination.currentPage,$!pagination.totalPage, 'currentPage', 'userQueryForm')
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <script>
+
+                    function deleteUser(username){
+                        var confirmMsg = "Do you want to delete "+username+"?"
+                        if(confirm(confirmMsg)) {
+                            $.ajax({
+                                type:'DELETE',
+                                url:'#springUrl("")/users/'+username,
+                                success: function(data){
+                                    if (data == "success") {
+                                        window.location.href = "#springUrl('')/users"
+                                    } else {
+                                        alert("Error, try it again!")
+                                    }
+                                },
+                                error:function(data){
+                                    alert("Error, try it again!")
+                                }
+                            });
+                        }
+                    }
+                </script>
+
+            </div>

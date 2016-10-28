@@ -1,0 +1,108 @@
+ <div class="right_col" role="main">
+
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="x_panel">
+                               <div class="page-title">
+                                <div class="x_title">
+                                    <h2>Nebula Server</h2>
+
+                        <div class="clearfix"></div>
+                                </div>
+
+                                <div class="x_content">
+                                                                      <form id="nebulaserverQueryForm" action="#springUrl('')/nebulaservers" method="GET">
+                                                                                	<input type="hidden" name="host" id="host" value="$!host">
+                                                                                <input type="hidden" id="currentPage" name="currentPage" value="$!pagination.currentPage">
+                                                                       </form>
+
+                                    <p>Please input the nebula server for search:</p>
+                                        <form id="searchnebulaserver" action="#springUrl('')/nebulaservers" method="POST">
+                                                <div class="input-group col-sm-4">
+                                                   <input type="text" name="host" id="host" placeholder="Input Nebula Server" class="form-control">
+                                                   <span class="input-group-btn">
+                                                   <button type="submit" class="btn btn-primary">Search</button>
+                                                  </span>
+                                                </div>
+                                       </form>
+                                    <!-- start project list -->
+                                    <table class="table table-striped projects">
+                                        <thead>
+                                            <tr>
+                                                <th style="width: 1%">No.</th>
+                                                <th style="width: 10%">Host</th>
+                                                <th>Domain</th>
+                                                <th>Status</th>
+                                                <th>Description</th>
+                                                <th>Last heartbeat Time</th>
+                                                <th>Registration Date</th>
+                                                <th style="width: 20%">Operations</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+
+                                           #foreach($nebulaserver in $nebulaservers)
+                                            <tr>
+                                                <td>
+                                                #set( $recordNo = ($!pagination.currentPage - 1) * $!pagination.pageSize + $foreach.count )
+                                                $recordNo
+                                                </td>
+                                                <td>
+                                                    $!nebulaserver.host
+                                                </td>
+                                                <td>
+                                                      $!nebulaserver.domainName
+                                                </td>
+                                                <td>
+
+                                                </td>
+                                                <td>
+                                                    $!nebulaserver.description
+                                                </td>
+                                                <td>
+                                                    $!dateTool.format('yyyy-MM-dd HH:mm:ss', $nebulaserver.heartbeat)
+                                                </td>
+                                                <td>
+                                                    $!dateTool.format('yyyy-MM-dd HH:mm:ss', $nebulaserver.createdDate)
+                                                </td>
+                                                <td> 
+                                                    <a href="#springUrl('')/nebulaserver/$nebulaserver.host/" class="btn btn-primary btn-xs"><i class="fa fa-pencil"></i> Edit </a>
+                                                    <a href="#" class="btn btn-danger btn-xs" onclick="deletenebulaserver('$nebulaserver.host')"><i class="fa fa-trash-o"></i> Delete </a>
+                                                </td>
+                                            </tr>
+                                          #end
+                                        </tbody>
+                                    </table>
+                                    <!-- end project list -->
+                                      #pagination($!pagination.currentPage,$!pagination.totalPage, 'currentPage', 'nebulaserverQueryForm')
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <script>
+
+                    function deletenebulaserver(host){
+                        var confirmMsg = "Do you want to remove "+host+"?"
+                        if(confirm(confirmMsg)) {
+                            $.ajax({
+                                type:'DELETE',
+                                url:'#springUrl("")/nebulaserver/'+host+'/',
+                                success: function(data){
+                                    if (data == "success") {
+                                        window.location.href = "#springUrl('')/nebulaservers"
+                                    } else {
+                                        alert(data)
+                                    }
+                                },
+                                error:function(data){
+                                    alert("Error, try it later!")
+                                }
+                            });
+                        }
+                    }
+                </script>
+
+            </div>

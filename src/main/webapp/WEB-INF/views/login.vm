@@ -1,0 +1,128 @@
+<!-- PAGE CONTENT --> 
+ 
+    <div class="container">
+
+      <div id="login-overlay" class="modal-dialog">
+          <div class="modal-content">
+              <div class="modal-header">
+                  <h4 class="modal-title" id="myModalLabel">Welcome to <b>Nebula Console</b></h4> or go to <a href="#">github</a> for more details.
+              </div>
+           <div class="modal-body">
+           <div class="well">
+
+    <div class="tab-content">
+        <div id="login" class="tab-pane $!loginActive ">
+            <form id="loginForm" action="#springUrl('')/login" class="form-signin" data-parsley-validate method="POST">
+                <p class="text-muted text-center btn-block btn btn-primary btn-rect">
+                    Login to  Nebula Console
+                </p>
+ 
+                <div id="loginErrorDiv"><ul class="parsley-errors-list filled" id="parsley-1" ><li class="parsley-required" id="loginErrors"></li></ul></div>
+                <input type="text" name="username" placeholder="Username" class="form-control" data-parsley-required-message="Please enter your username" required />
+                <input type="password" name="password" placeholder="Password" class="form-control" data-parsley-required-message="Please enter your password" required />
+
+                <button class="btn text-muted text-center btn-danger" type="submit">Login</button>
+            </form>
+        </div>
+        <div id="forgot" class="tab-pane">
+            <form action="#" class="form-signin">
+                <p class="text-muted text-center btn-block btn btn-primary btn-rect">Enter your valid e-mail</p>
+                <input type="email"  required="required" placeholder="Your E-mail"  class="form-control" />
+                <br />
+                <button class="btn text-muted text-center btn-success" type="submit">Recover Password</button>
+            </form>
+        </div>
+        <div id="signup" class="tab-pane $!signupActive ">
+            <form id="signupForm" action="#springUrl('')/signup" class="form-signin" data-parsley-validate method="POST">
+                <p class="text-muted text-center btn-block btn btn-primary btn-rect">Register with Nebula Console</p>
+                
+                <div id="signupErrorDiv"><ul class="parsley-errors-list filled" id="parsley-1" ><li class="parsley-required" id="signupErrors"></li></ul></div>
+                
+                <input type="text" name="username" placeholder="Username" class="form-control" data-parsley-required-message="Please enter your username" data-parsley-maxlength="10" data-parsley-maxlength-message="username at most 10 characters" data-parsley-type="alphanum" data-parsley-type-message="Only numbers and letters are allowed" required />
+                <input type="text" name="nickname" placeholder="Full Name" class="form-control" data-parsley-required-message="Please enter your full name" data-parsley-maxlength="20" data-parsley-maxlength-message="full name at most 20 characters" required />
+                <input type="text" name="email" placeholder="Email" class="form-control" data-parsley-type="email" data-parsley-type-message="Invalid email address" data-parsley-maxlength="100" data-parsley-maxlength-message="email at most 100 characters" required />
+                <input type="text" name="mobile" placeholder="Mobile Phone Number" class="form-control" data-parsley-maxlength="20" data-parsley-maxlength-message="phone number at most 20 characters"  required />
+                <input type="password" name="password" id="password" placeholder="Password" class="form-control" data-parsley-maxlength="20" data-parsley-maxlength-message="password at most 20 characters" data-parsley-minlength="6" data-parsley-minlength-message="password at least 6 characters" required />
+                
+                <input type="password"  placeholder="Confirm password" class="form-control" data-parsley-equalto="#password" data-parsley-equalto-message="Please check your passwords match" data-parsley-maxlength="20" data-parsley-maxlength-message="password at most 20 characters" data-parsley-minlength="6" data-parsley-minlength-message="password at least 6 characters" required />
+
+                <div class="form-group">
+                    <input name="captcha" type="text"  placeholder="Captcha" id="kaptcha" maxlength="4" class="form-control" />
+                    <img src="#springUrl('')/code/captcha-image" id="kaptchaImage"  style="margin-bottom: -3px"/>
+                    <a href="#" onclick="changeCode()">Change</a>
+                </div>
+                <button class="btn text-muted text-center btn-success" type="submit">Create your Nebula Account</button>
+            </form>
+        </div>
+    </div>
+    <div class="text-center">
+        <ul class="list-inline">
+            <li><a class="text-muted" href="#login" data-toggle="tab">Login</a></li>
+         <!--   <li><a class="text-muted" href="#forgot" data-toggle="tab">Forgot Password</a></li> -->
+            <li><a class="text-muted" href="#signup" data-toggle="tab">Signup</a></li>
+        </ul>
+    </div>
+
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+<script>
+
+
+
+$('#signupForm').submit(function(e) { 
+                            e.preventDefault(); 
+                            if ( $(this).parsley().isValid() ) { 
+                                $.ajax({
+                                                type:'POST',
+                                                url:'#springUrl("")/signup',
+                                                data: $("#signupForm").serialize(),
+                                                success: function(data){
+                                                    if (data == 'success') {
+                                                         window.location.href = "#springUrl('')/login"
+                                                    } else {
+                                                        $('#signupErrors').text(data);
+                                                        $('#signupErrorDiv').show();
+                                                    }
+                                                },
+                                                error:function(data){
+                                                    alert("Error, try it later!");
+                                                }
+                                            });
+ }
+});
+
+$('#loginForm').submit(function(e) { 
+                            e.preventDefault(); 
+                            if ( $(this).parsley().isValid() ) { 
+                                $.ajax({
+                                                type:'POST',
+                                                url:'#springUrl("")/login',
+                                                data: $("#loginForm").serialize(),
+                                                success: function(data){
+                                                    if (data == 'success') {
+                                                         window.location.href = "#springUrl('')/"
+                                                    } else {
+                                                        $('#loginErrors').text(data);
+                                                        $('#loginErrorDiv').show();
+                                                    }
+                                                },
+                                                error:function(data){
+                                                    alert("Error, try it later!");
+                                                }
+                                            });
+ }
+});
+                        
+function changeCode() {  
+    $('#kaptchaImage').hide().attr('src', '#springUrl('')/code/captcha-image?' + Math.floor(Math.random()*100) ).fadeIn();
+    event.cancelBubble=true;
+}
+ 
+                        	 
+                     	 
+</script>

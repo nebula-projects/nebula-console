@@ -1,0 +1,384 @@
+   #set($Boolean=true)
+   #set($isAdmin= $Boolean.parseBoolean($cookie.IsAdminKey.value))
+    <!-- page content -->
+            <div class="right_col" role="main">
+
+                 <!-- top tiles -->
+                <div class="row tile_count">
+                  #if($isAdmin)
+                    <div class="animated flipInY col-md-2 col-sm-4 col-xs-4 tile_stats_count">
+                        <div class="left"></div>
+                        <div class="right">
+                            <span class="count_top"><i class="fa fa-user"></i> Total Users</span>
+                            <div id="ALL_USERS_COUNT" class="count"></div>
+                        </div>
+                    </div>
+                    <div class="animated flipInY col-md-2 col-sm-4 col-xs-4 tile_stats_count">
+                        <div class="left"></div>
+                        <div class="right">
+                            <span class="count_top"><i class="fa fa-cube"></i> Total Domains</span>
+                            <div id="ALL_DOMAINS_COUNT" class="count"></div>
+                        </div>
+                    </div>
+                  #end
+                    <div class="animated flipInY col-md-2 col-sm-4 col-xs-4 tile_stats_count">
+                        <div class="left"></div>
+                        <div class="right">
+                            <span class="count_top"><i class="fa fa-random"></i> Total Workflows</span>
+                            <div id="WORKFLOWS" class="count"></div>
+                        </div>
+                    </div>
+                    <div class="animated flipInY col-md-2 col-sm-4 col-xs-4 tile_stats_count">
+                        <div class="left"></div>
+                        <div class="right">
+                            <span class="count_top"><i class="fa fa-cogs"></i> Total Activities</span>
+                            <div id="ACTIVITIES" class="count"></div>
+                        </div>
+                    </div>
+                    <div class="animated flipInY col-md-2 col-sm-4 col-xs-4 tile_stats_count">
+                        <div class="left"></div>
+                        <div class="right">
+                            <span class="count_top"><i class="fa fa-circle-o-notch"></i> Total Uncompleted Instances</span>
+                            <div id="RUNNING_INSTANCES" class="count"></div>
+                        </div>
+                    </div>
+                    <div class="animated flipInY col-md-2 col-sm-4 col-xs-4 tile_stats_count">
+                        <div class="left"></div>
+                        <div class="right">
+                            <span class="count_top"><i class="fa fa-history"></i> Total Completed Instances</span>
+                            <div id="COMPLETED_INSTANCES" class="count"></div>
+                        </div>
+                    </div>
+
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="x_panel">
+                                #if($isAdmin)
+                                <div class="x_title">
+
+                                    <h2>Completed Instances <small>progress</small></h2>
+                                    <div class="filter">
+                                        <div id="reportrange" class="pull-right" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc">
+                                            <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>
+                                            <span>December 30, 2014 - January 28, 2015</span> <b class="caret"></b>
+                                        </div>
+                                    </div>
+                                    <div class="clearfix"></div>
+                                </div>
+                                #end
+                                <div class="x_content">
+                                  
+                                  #if($isAdmin)
+                                    <div class="col-md-9 col-sm-12 col-xs-12">
+                                        <div class="demo-container" style="height:280px">
+                                            <div id="placeholder33x" class="demo-placeholder"></div>
+                                        </div> 
+                                    </div>
+                                  #end
+                                   
+                                   #if($isAdmin)
+                                     <div class="col-md-3 col-sm-12 col-xs-12">
+                                   #else
+                                     <div class="col-md-10 col-sm-12 col-xs-12">
+                                   #end
+                                        <div>
+                                            <div class="x_title">
+                                                <h2>New Messages</h2>
+                                                <div class="clearfix"></div>
+                                            </div>
+                                           <ul class="list-unstyled timeline widget">
+                                        <li>
+                                            <div class="block">
+                                                <div class="block_content">
+                                                    <h2 class="title">
+                                            <a>Preview version</a>
+                                        </h2>
+                                                    <div class="byline">
+                                                        <span>2016-06-28</span> by Administrator
+                                                    </div>
+                                                    <p class="excerpt">Preview version is released.
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="block">
+                                                <div class="block_content">
+                                                    <h2 class="title">
+                                            <a>Roadmap</a>
+                                        </h2>
+                                                    <div class="byline">
+                                                        <span>2016-06-25</span> by <a>Administrator</a>
+                                                    </div>
+                                                    <p class="excerpt">Roadmap...</a>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+ 
+
+
+            </div>
+            
+            <script type="text/javascript" src="#springUrl('')/static/js/moment.min.js"></script>
+                <!-- flot -->
+      <script type="text/javascript">
+    
+           function today(){
+                return moment(moment().format("YYYY-MM-DD"));
+           }
+           
+           var endDate = today();
+           var startDate = today().subtract(7, 'days');
+           
+           var oneDayInMillSecs = 24*3600*1000;
+
+            function loadStatistics(isAdmin){
+ 
+                               var dataUrl = '#springUrl("")/statistics';
+
+                                       $.ajax({
+                                       type:'GET',
+                                       url:dataUrl,
+                                       success: function(data){
+                                           if (data != null) {
+                                               var statistics = $.parseJSON(data);
+                                              
+                                               for(key in statistics){ 
+                                                    $("#"+statistics[key].measurement).text(statistics[key].value);
+                                               }
+                                           }
+                                       },
+                                       error:function(data){
+                                           console.log("Error, Try it again！")
+                                       }
+                                    });
+                       }
+
+            loadStatistics($isAdmin);
+
+            
+           function loadStatisticsGraph(isAdmin){
+
+                    var dataUrl = '#springUrl("")/statistics/COMPLETED_INSTANCES?startTimestamp='+startDate.valueOf()+'&endTimestamp='+endDate.valueOf()
+                       
+                            $.ajax({
+                            type:'GET',
+                            url:dataUrl,
+                            success: function(data){
+                                if (data != null) {
+                                    var statistics = $.parseJSON(data);
+                                    
+                                    var statisticData = []
+                                    var ticks=[]
+                                     
+                                    for(var timestamp=startDate.valueOf();timestamp<=endDate.valueOf() ; timestamp=timestamp+oneDayInMillSecs) {
+                                       
+                                      var value=0;
+                                      for(key in statistics){
+                                        if(timestamp==statistics[key].statisticDate) {
+                                           value = statistics[key].value;
+                                           break;
+                                        } 
+                                      }  
+                                      statisticData.push([timestamp+8*3600*1000,value]); 
+                                      console.log("day:"+moment(timestamp+8*3600*1000).format("YYYY-MM-DD"));
+                                      ticks.push(timestamp+8*3600*1000); //UTC + 8:00
+                                      
+                                    }
+                                    
+                                    console.log("statistics="+data);
+                                   
+                                     
+                                    console.log("statisticData="+statisticData);
+                                    console.log("ticks="+ticks);
+                                    
+                                    //ticks.push(statistics[key].statisticDate); 
+                                    showGraph(statisticData, ticks, isAdmin);
+                                    
+                                }  
+                            },
+                            error:function(data){
+                                console.log("Error, Try it again！")
+                            }
+                         });
+            }
+
+          loadStatisticsGraph($isAdmin);
+                         
+        //define chart clolors ( you maybe add more colors if you want or flot will add it automatic )
+        var chartColours = ['#96CA59', '#3F97EB', '#72c380', '#6f7a8a', '#f7cb38', '#5a8022', '#2c7282'];
+  
+        function showGraph(statisticData, ticks, isAdmin) {
+         
+          //  console.log(d1);
+           // var chartMinDate = d1[0][0]; //first day
+          //  var chartMaxDate = d1[4][0]; //last day
+
+            var tickSize = [1, "day"];
+            var tformat = "%y/%m/%d";
+
+            //graph options
+            var options = {
+                grid: {
+                    show: true,
+                    aboveData: true,
+                    color: "#3f3f3f",
+                    margin:0,
+                    labelMargin: 10,
+                    axisMargin: 0,
+                    borderWidth: 0,
+                    borderColor: null,
+                    minBorderMargin: 5,
+                    clickable: true,
+                    hoverable: true,
+                    autoHighlight: true,
+                    mouseActiveRadius: 100
+                },
+                series: {
+                    lines: {
+                        show: true,
+                        fill: true,
+                        lineWidth: 2,
+                        steps: false
+                    },
+                    points: {
+                        show: true,
+                        radius: 4.5,
+                        symbol: "circle",
+                        lineWidth: 3.0
+                    }
+                },
+                legend: {
+                    position: "ne",
+                    margin: [0, -25],
+                    noColumns: 0,
+                    labelBoxBorderColor: null,
+                    labelFormatter: function (label, series) {
+                        // just add some space to labes
+                        return label + '&nbsp;&nbsp;';
+                    },
+                    width: 40,
+                    height: 1
+                },
+                colors: chartColours,
+                shadowSize: 0,
+                tooltip: true, //activate tooltip
+                tooltipOpts: {
+                    content: "%s: %y.0",
+                    xDateFormat: "%d/%m",
+                    shifts: {
+                        x: -30,
+                        y: -50
+                    },
+                    defaultTheme: false
+                },
+                yaxis: {
+                    min: 0
+                },
+                xaxis: {
+                    mode: "time",
+                    timezone: "browser",
+                    tickSize: tickSize,
+                    ticks: ticks, 
+                    timeformat: tformat
+                }
+            };
+
+            var labelName = "Completed Instances";
+
+            var plot = $.plot($("#placeholder33x"), [{
+                label: labelName,
+                data: statisticData,
+                lines: {
+                    fillColor: "rgba(150, 202, 89, 0.12)"
+                }, //#96CA59 rgba(150, 202, 89, 0.42)
+                points: {
+                    fillColor: "#fff"
+                }
+            }], options);
+        }
+
+    </script>
+    <!-- /flot -->
+
+    <!-- datepicker -->
+                    <script type="text/javascript">
+                        $(document).ready(function () {
+
+                            var cb = function (start, end, label) {
+                                console.log(start.toISOString(), end.toISOString(), label);
+                                $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+                                //alert("Callback has fired: [" + start.format('MMMM D, YYYY') + " to " + end.format('MMMM D, YYYY') + ", label = " + label + "]");
+                            }
+
+                            var optionSet1 = {
+                                startDate: moment().subtract(14, 'days'),
+                                endDate: moment(),
+                                minDate: '01/01/2012',
+                                maxDate: moment(),
+                                dateLimit: {
+                                    days: 7
+                                },
+                                showDropdowns: true,
+                                showWeekNumbers: true,
+                                timePicker: false,
+                                timePickerIncrement: 1,
+                                timePicker12Hour: true,
+                                
+                                opens: 'left',
+                                buttonClasses: ['btn btn-default'],
+                                applyClass: 'btn-small btn-primary',
+                                cancelClass: 'btn-small',
+                                format: 'MM/DD/YYYY',
+                                separator: ' to ',
+                                locale: {
+                                    applyLabel: 'Submit',
+                                    cancelLabel: 'Clear',
+                                    fromLabel: 'From',
+                                    toLabel: 'To',
+                                    customRangeLabel: 'Custom',
+                                    daysOfWeek: ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'],
+                                    monthNames: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+                                    firstDay: 1
+                                }
+                            };
+                            $('#reportrange span').html(moment().subtract(7, 'days').format('MMMM D, YYYY') + ' - ' + moment().format('MMMM D, YYYY'));
+                            $('#reportrange').daterangepicker(optionSet1, cb);
+                            $('#reportrange').on('show.daterangepicker', function () {
+                                console.log("show event fired");
+                            });
+                            $('#reportrange').on('hide.daterangepicker', function () {
+                                console.log("hide event fired");
+                            });
+                            $('#reportrange').on('apply.daterangepicker', function (ev, picker) {
+                                console.log("apply event fired, start/end dates are " + picker.startDate  + " to " + picker.endDate);
+                                endDate = picker.endDate;
+                                startDate = picker.startDate;
+                                loadStatisticsGraph($isAdmin);
+                                
+                            });
+                            $('#reportrange').on('cancel.daterangepicker', function (ev, picker) {
+                                console.log("cancel event fired");
+                            });
+                            $('#options1').click(function () {
+                                $('#reportrange').data('daterangepicker').setOptions(optionSet1, cb);
+                            });
+                            $('#options2').click(function () {
+                                $('#reportrange').data('daterangepicker').setOptions(optionSet2, cb);
+                            });
+                            $('#destroy').click(function () {
+                                $('#reportrange').data('daterangepicker').remove();
+                            });
+                        });
+                    </script>

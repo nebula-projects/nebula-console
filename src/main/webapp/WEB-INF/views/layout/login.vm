@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
+<!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->
+<!--[if !IE]><!--> <html lang="en"> <!--<![endif]-->
+
+<!-- BEGIN HEAD -->
+<head>
+     <meta charset="UTF-8" />
+    <title></title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+	<meta content="" name="description" />
+	<meta content="" name="author" />
+     <!--[if IE]>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <![endif]-->
+    <!-- GLOBAL STYLES -->
+     <!-- PAGE LEVEL STYLES -->
+    <link href="#springUrl('')/static/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="#springUrl('')/static/css/login.css" />
+    <link rel="stylesheet" href="#springUrl('')/static/assets/plugins/magic/magic.css" />
+    
+          <!-- PAGE LEVEL SCRIPTS -->
+      <script src="#springUrl('')/static/js/jquery.min.js"></script>
+      <script src="#springUrl('')/static/js/bootstrap.min.js"></script>
+      <script src="#springUrl('')/static/js/login.js"></script>
+
+      <!-- form validation -->
+      <script type="text/javascript" src="#springUrl('')/static/js/parsley/parsley.min.js"></script>
+      <script type="text/javascript" src="#springUrl('')/static/js/parsley/i18n/zh_cn.js"></script>
+      <!--END PAGE LEVEL SCRIPTS -->
+
+     <!-- END PAGE LEVEL STYLES -->
+   <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+</head>
+    <!-- END HEAD -->
+
+    <!-- BEGIN BODY -->
+<body  style="background:#F7F7F7;">
+
+
+$screen_content
+
+	  <!--END PAGE CONTENT -->
+
+</body>
+    <!-- END BODY -->
+</html>

@@ -1,0 +1,261 @@
+ <div class="right_col" role="main">
+                        <div class="col-md-12 col-sm-12 col-xs-12">
+                        
+                         <div id="domainTable" class="" role="tabpanel" data-example-id="togglable-tabs">
+                                        <ul id="myTab" class="nav nav-tabs bar_tabs" role="tablist">
+                                            <li role="presentation" class="active"><a name="setting" href="#tab_content1" id="home-tab" role="tab" data-toggle="tab" aria-expanded="true"><i class="fa fa-cube"></i> Domain</a>
+                                            </li>
+                                            #if($!domain.id)
+                                             <li role="presentation" class=""><a name="data" href="#tab_content2" role="tab" id="profile-tab" data-toggle="tab"  aria-expanded="false"><i class="fa fa-bar-chart"></i> Statistics</a>
+                                             </li>
+                                            #end
+                                            
+                                        </ul>
+                                        <div id="myTabContent" class="tab-content">
+                                            <div role="tabpanel" class="tab-pane fade active in" id="tab_content1" aria-labelledby="home-tab">
+                                                                            <div class="x_panel">
+                                <div class="x_title">
+                                    <h2>#if($!domain.id)Edit Domain #else Create Domain#end </h2>
+                                    
+                                    <div class="clearfix"></div>
+                                </div>
+                                <div class="x_content">
+                                       #set($domainStatus=0)
+                                       #if($!domain.status)
+                                         #set($domainStatus=$!domain.status)
+                                       #end
+                                       <input type="hidden" id="domainStatus" name="domainStatus" value="$domainStatus">
+                                      <div id="domainErrorInfo"><ul class="parsley-errors-list filled" id="parsley-1" ><li class="parsley-required" id="domainErrors"></li></ul></div>
+                                    <form id="viewdomain" data-parsley-validate data-parsley-excluded="input[type=checkbox],input[id=servers],input[id=myNebulas]" class="form-horizontal form-label-left" action="#springUrl('')/domain" method="POST" >
+                                         <input type="hidden" name="id" value="$!domain.id">
+                                        <div class="form-group">
+                                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">Domain Name: <span class="required">*</span>
+                                            </label>
+                                            <div class="col-md-3 col-sm-3 col-xs-6">
+                                                <input type="text" id="name" name="name" value="$!domain.name" required #if($!domain.id) readonly="readonly" #end data-parsley-maxlength="10" data-parsley-maxlength-message="domain name at most 10 characters"  class="form-control col-md-7 col-xs-12">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name">Database URL: <span class="required">*</span>
+                                            </label>
+                                            <div class="col-md-3 col-sm-3 col-xs-6">
+                                                <input type="text" id="dbUrl" name="dbUrl" value="$!domain.dbUrl" required="required" data-parsley-maxlength="100" data-parsley-maxlength-message="Database URL at most 100 characters" class="form-control col-md-7 col-xs-12">
+                                            </div>
+                                        </div>
+                                        
+                                         <div class="form-group">
+                                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name">Redis Host: <span class="required">*</span>
+                                            </label>
+                                            <div class="col-md-3 col-sm-3 col-xs-6">
+                                                <input type="text" id="redisHost" name="redisHost" value="$!domain.redisHost" data-parsley-maxlength="100" data-parsley-maxlength-message="Redis Host at most 100 characters" required="required" class="form-control col-md-7 col-xs-12">
+                                            </div>
+                                            
+                                        </div>
+                                        
+                                        <div class="form-group">
+                                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="redisPort">Redis Port: <span class="required">*</span>
+                                            </label>
+                                            <div class="col-md-1 col-sm-1 col-xs-2">
+                                                <input type="text" id="redisPort" name="redisPort" value="$!domain.redisPort" type="number" data-parsley-type="integer" data-parsley-max="65535" data-parsley-max-message="Redis Port maximum 65535" required="required" class="form-control col-md-7 col-xs-12">
+                                            </div>
+                                        </div>
+                                        
+                                         <div class="form-group">
+                                             <label class="control-label col-md-3 col-sm-3 col-xs-12">Please input nebula server IP/host: </label>
+                                        	 <div class="col-md-3 col-sm-3 col-xs-6">
+                                        	    <input type="text" name="selectedNebula" id="selectedNebula" placeholder="Input nebula server ip/host" class="form-control col-md-6" style="float: left;" />
+                                        	    <div id="autocomplete-container" style="position: relative; float: left; width: 400px; margin: 5px;"></div>
+                                        	 </div>
+                                        	 <button type="button" class="control-button col-md-1 col-sm-1 col-xs-2 btn btn-primary" onclick="addNebula()">Add</button>
+
+                                         </div>
+                                         
+                                          <div class="form-group">
+	                                             <label class="control-label col-md-3 col-sm-3 col-xs-3"></label>
+	                                             <div id="myNebulas" class="col-md-6 col-sm-6 col-xs-12">
+	                                                 #foreach($selectedNebula in $!domain.servers)
+	                                                   #set($selectedNebulaId=$selectedNebula.hashCode())
+	                                                   <span id="${selectedNebulaId}"><input type="text" id="servers" name="servers" class="btn btn-round btn-primary" value="${selectedNebula}"><a href="#" onclick="removeNebula('${selectedNebulaId}','${selectedNebula}')"><span class="glyphicon glyphicon-remove" aria-hidden="true"  style="font-size: 1.6em"></span></a>,</span>
+	                                                 #end
+	                                             </div>
+	                                 </div>
+                                        
+                                        <div class="form-group">
+                                             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="description">Description(maximum 200 characters):</label>
+                                             <div class="col-md-3 col-sm-3 col-xs-6">
+                                                <textarea id="description" class="form-control" name="description"  data-parsley-maxlength="200"  data-parsley-maxlength-message="description at most 200 characters" >$!domain.description</textarea>
+                                             </div>
+                                        </div>
+  
+                                        <div class="col-md-1 col-sm-1 col-xs-1 col-md-offset-3">
+                                           <input id="mystatus" name="mystatus" type="checkbox" #if($!domain.status==1)checked#end data-off-color="danger" value="" data-on-text="Enabled" data-off-text="Disabled">
+                                        </div> 
+                                        
+                                        
+                                         <div class="clearfix"></div>
+                                        <div class="ln_solid"></div>
+                                        <div class="form-group">
+                                            <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3"> 
+                                                  <button type="submit" class="btn btn-primary">Save</button> 
+                                            </div>
+                                        </div>
+
+                                    </form>
+                                </div>
+                            </div>
+                                            </div>
+                     
+                     <div role="tabpanel" class="tab-pane fade" id="tab_content2" aria-labelledby="profile-tab">
+                                            
+                                                 
+				                <div class="row tile_count">
+				                    <div class="animated flipInY col-md-2 col-sm-4 col-xs-4 tile_stats_count">
+				                        <div class="left"></div>
+				                        <div class="right">
+				                            <span class="count_top"><i class="fa fa-user"></i> Users</span>
+				                            <div id="ALL_USERS_COUNT" class="count">0</div>
+				                        </div>
+				                    </div>
+				                    <div class="animated flipInY col-md-2 col-sm-4 col-xs-4 tile_stats_count">
+				                        <div class="left"></div>
+				                        <div class="right">
+				                            <span class="count_top"><i class="fa fa-random"></i> Workflow</span>
+				                            <div id="WORKFLOWS" class="count">0</div>
+				                        </div>
+				                    </div>
+				                    <div class="animated flipInY col-md-2 col-sm-4 col-xs-4 tile_stats_count">
+				                        <div class="left"></div>
+				                        <div class="right">
+				                            <span class="count_top"><i class="fa fa-cogs"></i> Activity</span>
+				                            <div id="ACTIVITIES" class="count">0</div>
+				                        </div>
+				                    </div>
+				                    <div class="animated flipInY col-md-2 col-sm-4 col-xs-4 tile_stats_count">
+				                        <div class="left"></div>
+				                        <div class="right">
+				                            <span class="count_top"><i class="fa fa-circle-o-notch"></i> Uncompleted Instances</span>
+				                            <div id="RUNNING_INSTANCES" class="count">0</div>
+				                        </div>
+				                    </div>
+				                    <div class="animated flipInY col-md-2 col-sm-4 col-xs-4 tile_stats_count">
+				                        <div class="left"></div>
+				                        <div class="right">
+				                            <span class="count_top"><i class="fa fa-history"></i> Completed Instances</span>
+				                            <div id="COMPLETED_INSTANCES" class="count">0</div>
+				                        </div>
+				                    </div>
+				                     
+				                 </div>
+				                    
+				                    
+                                           
+                                          </div>
+                                           
+                                        </div>
+                                    </div> 
+
+                        </div>
+                    </div>
+                    
+                    
+                    <script>
+                       $("[name='mystatus']").bootstrapSwitch();
+                       $("[name='mystatus']").on('switchChange.bootstrapSwitch', function(event, state) { 
+                          
+                          $('#domainStatus').attr('value', state? 1 : 0);
+                       });
+                       
+                       $('#domainTable a').click(function (e) {
+													  e.preventDefault(); 
+													  if($(this).attr("name")=="data"){ 
+													       
+													  		 $.ajax({
+                                         type:'GET',
+                                         url:'#springUrl("")/statistics/domain/$!domain.name',
+                                         success: function(data){
+	                                         if (data.indexOf("error")==-1) {
+	                                                 statisticSummaries = $.parseJSON(data);
+                                                     for(key in statisticSummaries){
+                                                          $('#'+statisticSummaries[key].measurement).text(statisticSummaries[key].value);
+                                                     }
+
+	                                                 
+	                                         } else {
+	                                                $('#domainErrors').text(data);
+	                                                $('#domainErrorInfo').show();
+	                                         }
+                                         },
+                                         error:function(data){
+                                                  alert("Error, try it later!");
+                                         }
+                                 });
+													  }
+													  
+													  $(this).tab('show');
+											});
+                       
+                       $(function () {
+                       		 $('#selectedNebula').autocomplete({
+                                                                       serviceUrl: '#springUrl('')/nebulaservers/search',
+                                                                       appendTo: '#autocomplete-container',
+                                                                       noCache: true, 
+                                                                       onSelect: function (suggestion) {
+                                                                            $('#selectedNebula').attr('value', suggestion.value);
+                                                                       }
+
+                                                                   });
+                        	
+                        	 $('#viewdomain').submit(function(e) {
+                            e.preventDefault(); 
+                            if ( $(this).parsley().isValid() ) { 
+                                $.ajax({
+                                                type:'POST',
+                                                url:'#springUrl("")/domain',
+                                                data: $("#viewdomain").serialize()+'&status='+$('#domainStatus').val(),
+                                                success: function(data){
+                                                    if (data == 'success') {
+                                                         window.location.href = "#springUrl('')/domains"
+                                                    } else {
+                                                        $('#domainErrors').text(data);
+                                                        $('#domainErrorInfo').show();
+                                                    }
+                                                },
+                                                error:function(data){
+                                                    alert("Error, try it later!");
+                                                }
+                                            });
+                            }
+                        });
+                     	 });
+
+                        var selectedNebulas = new Array();
+                        
+                     	  function addNebula(){
+                               var selectedNebula = $('#selectedNebula').val(); 
+                               if(!selectedNebula) {
+                                     return;
+                               }
+                                
+                               if(selectedNebulas[selectedNebula]){
+                                   alert(selectedNebula+" already added");
+                                   return;
+                               }
+                               
+                               selectedNebulas[selectedNebula]=selectedNebula;
+                               
+                               var selectedNebulaId = selectedNebula.replace(/\./g,"-");
+
+                                var content = '<span id="'+selectedNebulaId+'"><input type="text"  name="servers" class="btn btn-round btn-primary" value="'+selectedNebula+'"><a href="#" onclick="removeNebula(\''+selectedNebulaId+'\''+','+'\''+selectedNebula+'\')"><span class="glyphicon glyphicon-remove" aria-hidden="true"  style="font-size: 1.6em"></span></a>,</span>';
+                                $('#myNebulas').append(content);
+
+                          }
+
+                           function removeNebula(selectedNebulaId, selectedNebula){ 
+                                 var confirmMsg = "Do you want to remove "+selectedNebula+" from $!domain.name ?"
+                                 if(confirm(confirmMsg)) {
+                                    selectedNebulas[selectedNebula]=null;
+							                      $('#'+selectedNebulaId).remove();
+                                 }
+                           }
+                     	  
+                   </script>

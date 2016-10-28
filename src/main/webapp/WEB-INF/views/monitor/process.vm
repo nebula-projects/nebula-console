@@ -1,0 +1,91 @@
+<div>
+    <ul class="breadcrumb">
+        <li>
+            <a href="#springUrl('')/">首页</a>
+        </li>
+        <li>
+            <a href="#springUrl('')/monitor/main">流程监控</a>
+        </li>
+         <li>
+            流程监控配置
+        </li>
+    </ul>
+</div>
+   
+<div class="row">
+    <div class="box col-md-12">
+        <div class="box-inner">
+            <div class="box-header well" data-original-title="">
+                <h2><i class="glyphicon glyphicon-edit"></i> 流程： $!{selectedWorkflow.name}  版本： $!{selectedWorkflow.version}  完成的实例数: $!{uncompletedInstanceNumber}</h2>
+
+            </div> 
+ 
+
+            <div class="box-content">
+                <p>  
+                    <a class="btn btn-success btn-sm" href="#springUrl('')/monitor/${selectedWorkflow.id}/processconfig?processName=$!{selectedWorkflow.name}&processVersion=$!{selectedWorkflow.version}">新建</a>  
+                </p>
+                <table class="table table-striped table-hover">
+                    <thead>
+                    <tr>
+                        <th class="text-center">积压阀值</th>
+                        <th class="text-center">积压时长</th>
+                        <th class="text-center">监控间隔(分钟)</th>
+                        <th class="text-center">连续次数</th>
+                        <th class="text-center">报警级别</th>
+                        <th class="text-center">报警方式</th>
+                        <th class="text-center">创建时间</th>
+                        <th class="text-center">更新时间</th>
+                        <th class="text-center">状态</th>
+                         <th class="text-center">操作</th>
+                    </tr>
+                    </thead>
+
+                    <tbody>
+                        #if ($errors)
+                        <div class="text-center">
+                            <td style="background-color:white; color: red">$!errors</td>
+                        </div>
+                        #end
+
+                        #foreach($config in $configs)
+                        <tr class="clickableRow" href="#springUrl('')/monitor/${selectedWorkflow.id}/${config.id}/data">
+                            <td class="text-center">$!{config.uncompletedNumber}</td>
+                            <td class="text-center">$!{config.duration} #if($!{config.timeUnit.name()}=='SECOND')(秒)#elseif($!{config.timeUnit.name()}=='MINUTE')(分)#else(小时)#end</td>
+                            <td class="text-center">$!{config.intervalMin}</td>
+                            <td class="text-center">$!{config.consecutiveTimes}</td>
+                            <td class="text-center">#if($!{config.priority.name()}=='WARNING')警告#else严重#end</td>
+                             <td class="text-center">#if ($!{config.emailAlarm}==true) 邮件#end  #if ($!{config.mobileAlarm}==true)  短信#end</td>
+                            <td class="text-center">$!dateTool.format('yyyy-MM-dd HH:mm:ss', $config.createdDate)</td>
+                            <td class="text-center">$!dateTool.format('yyyy-MM-dd HH:mm:ss', $config.updatedDate)</td>
+                            <td class="text-center">#if ($!{config.enabled}==true)  <span class="label  label-default label-success">有效</span> #else  <span class="label  label-default label-danger">禁用</span> #end</td>
+                            
+                            <td class="text-center">
+                                    <a class="btn btn-info btn-sm" href="#springUrl('')/monitor/${selectedWorkflow.id}/processconfig/$!{config.id}?processName=$!{selectedWorkflow.name}&processVersion=$!{selectedWorkflow.version}"><i class="glyphicon glyphicon-edit icon-white"></i>编辑</a>
+                                    <a class="btn btn-danger btn-sm" href="#springUrl('')/monitor/${selectedWorkflow.id}/processconfig/delete/$!{config.id}"><i class="glyphicon glyphicon-trash icon-white"></i>删除</a>
+                             </td> 
+                        </tr>
+                        #end
+                    </tbody>
+                </table>
+                #if ($pagination)
+                    #pagination($!pagination.currentPage, $!pagination.totalPage, 'currentPage', 'monitorConfigForm')
+                #end
+            </div>
+        </div>
+    </div>
+</div>
+
+<form   id="monitorConfigForm" action="#springUrl('')/monitor/${selectedWorkflow.id}/processconfigs" method="GET">
+ <input type="hidden" id="currentPage" name="currentPage" value="$!{pagination.currentPage}">
+</form>
+ 
+
+<script type="text/javascript">
+    jQuery(document).ready(function($) {
+      $(".clickableRow").click(function() {
+            window.document.location = $(this).attr("href");
+      });
+});
+ 
+</script>

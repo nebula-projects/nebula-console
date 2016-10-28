@@ -1,0 +1,65 @@
+<div>
+    <ul class="breadcrumb">
+        <li>
+            <a href="#springUrl('')/">首页</a>
+        </li>
+        <li>
+           <a href="#springUrl('')/monitor/${processId}/processconfigs"> 流程监控</a>
+        </li>
+       <li>
+            监控数据
+        </li>
+    </ul>
+</div>
+ 
+ 
+
+<div class="row">
+    <div class="box col-md-12">
+        <div class="box-inner">
+            <div class="box-header well" data-original-title="">
+                <h2><i class="glyphicon glyphicon-edit"></i> 监控数据 </h2>
+
+            </div> 
+ 
+
+            <div class="box-content">
+               
+                <table class="table table-striped table-hover">
+                    <thead>
+                    <tr>
+                        <th class="text-center">采集时间</th>
+                        <th class="text-center">数据</th>
+                        <th class="text-center">状态</th> 
+                    </tr>
+                    </thead>
+
+                    <tbody>
+                        #if ($errors)
+                        <div class="text-center">
+                            <td style="background-color:white; color: red">$!errors</td>
+                        </div>
+                        #end
+
+                        #foreach($data in $monitorData)
+                        <tr> 
+                            <td class="text-center">$!dateTool.format('yyyy-MM-dd HH:mm:ss', $data.createdDate)</td>
+                            <td class="text-center">$!{data.count}</td>
+                            <td class="text-center">#if ($!{data.alarm}==true)  <span class="label  label-default label-danger">报警</span> #end</td>
+                             
+                        </tr>
+                        #end
+                    </tbody>
+                </table>
+               
+                #if ($pagination)
+                    #pagination($!pagination.currentPage, $!pagination.totalPage, 'currentPage', 'monitorDataForm')
+                #end
+            </div>
+        </div>
+    </div>
+</div> 
+
+<form   id="monitorDataForm" action="#springUrl('')/monitor/${processId}/${configId}/data" method="GET">
+ <input type="hidden" id="currentPage" name="currentPage" value="$!{pagination.currentPage}">
+</form>

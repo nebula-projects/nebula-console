@@ -1,0 +1,99 @@
+  #set($Boolean=true)
+  #set($isAdmin= $Boolean.parseBoolean($cookie.IsAdminKey.value))
+
+ <div class="right_col" role="main">
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="x_panel">
+                                <div class="x_title">
+                                    <h2>Workflow</h2>
+                                    <div class="clearfix"></div>
+                                </div> 
+                                              
+                                <div class="x_content">
+
+                                    <p>  Please input #if($isAdmin) username and #end workflow name for search:</p>
+                                        <form id="searchWorkflow" class="form-inline" action="#springUrl('')/workflows" method="POST">
+                                           
+                                              #if($!isAdmin)                                              
+                                                <label class="control-label">Username:</label>
+                                                                
+                                                <input type="text" name="username" id="username" placeholder="Input username" class="form-control">
+                                                
+                                                <label class="control-label">Workflow Name:</label>
+                                              #end 
+                                               <input type="text" name="workflowname" id="workflowname" placeholder="Input workflow name" class="form-control"> 
+                                             
+                                              <button type="submit" class="btn btn-primary">Search</button>  
+                                       </form>
+
+                                       <div class="clearfix"></div>
+                                       <p>
+
+                                    <!-- start project list -->
+                                    <table class="table table-striped projects">
+                                        <thead>
+                                            <tr>
+                                                <th style="width: 1%">No.</th>
+                                                <th style="width: 10%">Workflow Name</th>
+                                                <th>Version</th>
+                                                <th>Username</th>
+                                                <th>Status</th>
+                                                <th>Uncompleted Instances</th>
+                                                <th>Completed Instances</th>
+                                                <th>Registration Date</th>
+                                                <th style="width: 20%">Operation</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        
+                                           #foreach($workflow in $workflows)
+                                            <tr>
+                                                <td>
+                                                #set( $recordNo = ($!pagination.currentPage - 1) * $!pagination.pageSize + $foreach.count )
+                                                $recordNo
+                                                </td>
+                                                <td>
+                                                    $workflow.registrationSummary.name
+                                                </td>
+                                                <td>
+                                                    $workflow.registrationSummary.version
+                                                </td>
+                                                <td>
+                                                    $workflow.registrationSummary.user
+                                                </td>
+
+                                                <td>
+                                                  #if($workflow.registrationSummary.enabled)
+                                                    <button type="button" class="btn btn-success btn-xs">Enabled</button>
+                                                  #else
+                                                    <button type="button" class="btn btn-danger btn-xs">Disabled</button>
+                                                  #end
+                                                </td>
+                                                <td>
+                                                      $!workflow.runningInstances
+                                                </td>
+                                                <td>
+                                                      $!workflow.historyInstances
+                                                </td>
+                                                <td>
+                                                    $!dateTool.format('yyyy-MM-dd HH:mm:ss', $workflow.registrationSummary.createdDate)
+                                                </td>
+                                                <td>
+                                                    <a href="#springUrl('')/workflow/$workflow.registrationSummary.id" class="btn btn-primary btn-xs"><i class="fa fa-folder"></i> View </a>
+                                                </td>
+                                            </tr>
+                                          #end
+                                        </tbody>
+                                    </table>
+                                    <!-- end project list -->
+                                      #pagination($!pagination.currentPage,$!pagination.totalPage, 'currentPage', 'workflowQueryForm')
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>

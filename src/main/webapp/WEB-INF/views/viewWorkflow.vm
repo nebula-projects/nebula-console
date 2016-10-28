@@ -1,0 +1,263 @@
+ <div class="right_col" role="main">
+                        <div class="col-md-12 col-sm-12 col-xs-12">
+
+                         <div class="" role="tabpanel" data-example-id="togglable-tabs">
+                                        <ul id="myTab" class="nav nav-tabs bar_tabs" role="tablist">
+                                            <li role="presentation" class="active"><a href="#tab_content1" id="home-tab" role="tab" data-toggle="tab" aria-expanded="true"><i class="fa fa-random"></i> Workflow</a>
+                                            </li>
+                                            <li role="presentation" class=""><a href="#tab_content2" role="tab" id="profile-tab" data-toggle="tab"  aria-expanded="false"><i class="fa fa-cogs"></i> Activity</a>
+                                            </li>
+
+                                        </ul>
+                                        <div id="myTabContent" class="tab-content">
+                                            <div role="tabpanel" class="tab-pane fade active in" id="tab_content1" aria-labelledby="home-tab">
+
+                                                                            <div class="x_panel">
+                                <div class="x_title">
+                                    <h2>Basic Information</h2>
+
+                                    <div class="clearfix"></div>
+                                </div>
+                                <div class="x_content">
+                                    <form id="viewWorkflow" class="form-horizontal form-label-left" >
+                                        <div class="form-group">
+                                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">Workflow Name:
+                                            </label>
+                                            <div class="col-md-3 col-sm-3 col-xs-6">
+                                                <div class="well well-sm">$!workflow.name</div>
+                                                <!-- <input type="text"  value="$!workflow.name" readonly="readonly"  class="form-control col-md-7 col-xs-12"> -->
+                                            </div>
+                                        </div>
+                                         <div class="form-group">
+                                               <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">Version:
+                                               </label>
+                                               <div class="col-md-3 col-sm-3 col-xs-6">
+                                                     <div class="well well-sm">$!workflow.version</div>
+                                                    <!-- <input type="text"  value="$!workflow.version" readonly="readonly"  class="form-control col-md-7 col-xs-12"> -->
+                                               </div>
+                                         </div>
+                                         <div class="form-group">
+                                               <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">Username:
+                                               </label>
+                                               <div class="col-md-3 col-sm-3 col-xs-6">
+                                                  <div class="well well-sm">$!workflow.user</div>
+                                                 <!--    <input type="text"  value="$!workflow.user" readonly="readonly"  class="form-control col-md-7 col-xs-12"> -->
+                                               </div>
+                                         </div>
+
+                                         #set($realms='')
+
+                                         #foreach($realm in $!workflow.registrationInfo.realms)
+                                         	#set($realms=$realms+$realm+'  ')
+                                         #end
+
+                                         <div class="form-group">
+                                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name">Realms:
+                                            </label>
+                                            <div class="col-md-3 col-sm-3 col-xs-6">
+                                                 <div class="well well-sm">$!realms</div>
+                                                 <!-- <input type="text"  value="$!realms" readonly="readonly"  class="form-control col-md-7 col-xs-12"> -->
+                                            </div>
+                                        </div>
+
+                                        #if($!workflow.registrationInfo.workflowProfile.startTime)
+                                        <div class="form-group">
+                                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name">Start Date:
+                                            </label>
+                                            <div class="col-md-3 col-sm-3 col-xs-6">
+                                                <div class="well well-sm">$!dateTool.format('yyyy-MM-dd HH:mm:ss', $!workflow.registrationInfo.workflowProfile.startTime)</div>
+                                               <!-- <input type="text"  value=" $!dateTool.format('yyyy-MM-dd HH:mm:ss', $!workflow.registrationInfo.workflowProfile.startTime)" readonly="readonly"  class="form-control col-md-7 col-xs-12"> -->
+                                            </div>
+                                        </div>
+                                       #end
+
+                                        #if($!workflow.registrationInfo.workflowProfile.interval)
+                                        <div class="form-group">
+                                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name">Execution Interval:
+                                            </label>
+                                            <div class="col-md-3 col-sm-3 col-xs-6">
+                                                <div class="well well-sm">$!workflow.registrationInfo.workflowProfile.interval</div>
+                                                <!-- <input type="text"  value="$!workflow.registrationInfo.workflowProfile.interval" readonly="readonly"  class="form-control col-md-7 col-xs-12"> -->
+                                            </div>
+                                        </div>
+                                       #end
+
+                                        #if($!workflow.registrationInfo.workflowProfile.startTime || $!workflow.registrationInfo.workflowProfile.interval )
+                                        <div class="form-group">
+                                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name">isSerial:
+                                            </label>
+                                            <div class="col-md-1 col-sm-1 col-xs-1"> 
+                                                <input id="serial" name="serial" type="checkbox" #if($!workflow.registrationInfo.workflowProfile.serial==true)checked#end data-off-color="danger" value=""   readonly="readonly" data-on-text="Yes" data-off-text="No">
+                                            </div>
+                                        </div>
+                                       #end
+                                      
+                                      <!-- 
+                                       <div class="form-group">
+                                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name">Start Method:
+                                            </label>
+                                            <div class="col-md-6 col-sm-6 col-xs-6">
+                                                <textarea class="form-control" readonly="readonly"  rows="3"> Method Name：$!workflow.registrationInfo.startProfile.name  &#13;&#10; Return Type: $!workflow.registrationInfo.startProfile.returnType &#13;&#10; Argument Type: $!workflow.registrationInfo.startProfile.parameterTypes
+                                                </textarea>
+                                             </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name">All Methods:
+                                            </label>
+                                            <div class="col-md-6 col-sm-6 col-xs-6">
+                                                <textarea class="form-control" readonly="readonly"  rows="3">#foreach($methodProfile in $!workflow.registrationInfo.methodProfiles) Method Name：$!methodProfile.name  &#13;&#10; Return Type: $!methodProfile.returnType &#13;&#10; Argument Type: $!methodProfile.parameterTypes &#13;&#10; #end
+                                                </textarea>
+                                             </div>
+                                        </div>
+                                     -->
+
+                                         <div class="clearfix"></div>
+                                        <div class="ln_solid"></div>
+                                    </form>
+
+                                            <div class="x_panel">
+                                                    <div class="x_title">
+                                                                        <h2>Methods</h2>
+                                                                         
+                                                                        <div class="clearfix"></div>
+                                                                    </div>
+                                                                    <div class="x_content">
+
+                                                                        <table class="table table-striped">
+                                                                            <thead>
+                                                                                <tr>
+                                                                                    <th>No.</th>
+                                                                                    <th>Method Type</th>
+                                                                                    <th>Method Signature</th> 
+                                                                                </tr>
+                                                                            </thead>
+                                                                            <tbody>
+                                                                            
+                                                                                <tr>
+                                                                                    <th scope="row">1</th>
+                                                                                    <td>Start</td>
+                                                                                    <td> $!workflow.registrationInfo.startProfile.returnType $!workflow.registrationInfo.startProfile.name
+                                                                                    (
+                                                                                          #foreach($parameterType in $!workflow.registrationInfo.startProfile.parameterTypes)
+                                                                                            $parameterType #if($foreach.hasNext ), #end
+                                                                                          #end
+                                                                                        )
+                                                                                        
+                                                                                    </td>
+                                                                                      
+                                                                                </tr>
+                                                                              
+                                                                              #foreach($methodProfile in $!workflow.registrationInfo.methodProfiles)
+                                                                                <!-- Filter the Start method -->
+                                                                                #if(!$!workflow.registrationInfo.startProfile.equals($methodProfile))
+	                                                                                <tr>
+	                                                                                    <th scope="row">$foreach.count</th>
+	                                                                                    <td>Signal</td>
+	                                                                                    <td>$!methodProfile.returnType $!methodProfile.name (
+	                                                                                        #foreach($parameterType in $!methodProfile.parameterTypes)
+                                                                                            $parameterType #if($foreach.hasNext ), #end
+                                                                                          #end
+	                                                                                      )
+	                                                                                    </td> 
+	                                                                                </tr>
+                                                                                #end
+                                                                              #end
+                                                                               
+                                                                            </tbody>
+                                                                        </table>
+
+                                                                    </div>
+                                                                </div>
+                                    
+                                </div>
+                            </div>
+                                            </div>
+
+                     <div role="tabpanel" class="tab-pane fade" id="tab_content2" aria-labelledby="profile-tab">
+	                       <div class="x_panel">
+	                                            <div class="row">
+                        <div class="col-md-12">
+                            <div class="x_panel">
+                                <div class="x_title">
+                                    <h2>Activities</h2>
+                                    <div class="clearfix"></div>
+                                </div>
+                                <div class="x_content">
+                                                               
+                                    <table class="table table-striped projects">
+                                        <thead>
+                                            <tr>
+                                                <th style="width: 1%">No.</th>
+                                                <th style="width: 10%">Activity</th>
+                                                <th>Version</th>
+                                                <th>Status</th>
+                                                <th>Method Signature</th>
+                                                <th>Registration Date</th>
+                                                <th>Update Date</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        
+                                         #foreach($activity in $!activities)
+                                            <tr>
+                                                <td>
+                                                $foreach.count
+                                                </td>
+                                                <td>
+                                                    $activity.registrationSummary.name
+                                                </td>
+                                                <td>
+                                                    $activity.registrationSummary.version
+                                                </td>
+                                               
+                                                <td>
+                                                  #if(!$activity.registrationSummary.enabled)
+                                                    <button type="button" class="btn btn-danger btn-xs">Disabled</button>
+                                                  #else
+                                                    <button type="button" class="btn btn-success btn-xs">Enabled</button>
+                                                  #end
+                                                </td>
+                                                <td>
+                                                   #foreach($methodProfile in $!activity.registrationInfo.methodProfiles)
+                                                      $!methodProfile.returnType $!methodProfile.name 
+                                                      (
+                                                          #foreach($parameterType in $!methodProfile.parameterTypes)
+                                                             $parameterType #if($foreach.hasNext ), #end
+                                                          #end
+                                                      ) <br/>
+                                                   #end
+                                                </td>
+                                                <td>
+                                                    $!dateTool.format('yyyy-MM-dd HH:mm:ss', $activity.registrationSummary.createdDate)
+                                                </td>
+                                                <td>
+                                                    $!dateTool.format('yyyy-MM-dd HH:mm:ss', $activity.registrationSummary.modifiedDate)
+                                                </td>
+                                            </tr>
+                                          #end
+                                        </tbody>
+                                    </table> 
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+	                       </div>
+
+                                 </div>
+
+
+
+                                        </div>
+                                    </div>
+
+                        </div>
+                    </div>
+
+
+                    <script>
+
+                       $("[name='serial']").bootstrapSwitch();
+                      
+                   </script>

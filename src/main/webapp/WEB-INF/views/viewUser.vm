@@ -1,0 +1,208 @@
+ <div class="right_col" role="main">
+                        <div class="col-md-12 col-sm-12 col-xs-12">
+                        
+                         <div class="" role="tabpanel" data-example-id="togglable-tabs">
+                                        <ul id="myTab" class="nav nav-tabs bar_tabs" role="tablist">
+                                            <li role="presentation" class="active"><a href="#tab_content1" id="home-tab" role="tab" data-toggle="tab" aria-expanded="true"><i class="fa fa-user"></i> User</a>
+                                            </li>
+                                            <li role="presentation" class=""><a href="#tab_content2" role="tab" id="profile-tab" data-toggle="tab"  aria-expanded="false"><i class="fa fa-cube"></i> Domain</a>
+                                            </li>
+                                            
+                                        </ul>
+                                        <div id="myTabContent" class="tab-content">
+                                            <div role="tabpanel" class="tab-pane fade active in" id="tab_content1" aria-labelledby="home-tab">
+                                            
+                                                                            <div class="x_panel">
+                                <div class="x_title">
+                                    <h2>Basic Information</h2>
+                                    
+                                    <div class="clearfix"></div>
+                                </div>
+                                <div class="x_content">
+                                    <input type="hidden" id="userStatus" name="userStatus" value="$!user.status">
+                                    <div id="userErrorInfo"><ul class="parsley-errors-list filled" id="parsley-1" ><li class="parsley-required" id="userErrors"></li></ul></div>
+                                    <form id="viewuser" data-parsley-validate data-parsley-excluded="input[type=checkbox],input[id=servers]" class="form-horizontal form-label-left" action="#springUrl('')/user" method="POST" >
+                                        <input type="hidden" id="id" name="id" value="$!user.id">
+                                        <div class="form-group">
+                                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">Username: <span class="required">*</span>
+                                            </label>
+                                            <div class="col-md-3 col-sm-3 col-xs-6">
+                                                <input type="text" id="username" name="username" value="$!user.username" readonly="readonly" placeholder="Username" required  data-parsley-maxlength="20" data-parsley-maxlength-message="Username at most 20 characters"  class="form-control col-md-7 col-xs-12">
+                                            </div>
+                                        </div>
+                                         <div class="form-group">
+                                               <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">Full Name: <span class="required">*</span>
+                                               </label>
+                                               <div class="col-md-3 col-sm-3 col-xs-6">
+                                                     <input type="text" name="nickname" value="$!user.nickname" readonly="readonly" placeholder="Full Name" class="form-control col-md-7 col-xs-12" data-parsley-required-message="Full name is required" data-parsley-maxlength="20" data-parsley-maxlength-message="Full name at most 20 characters" required />
+
+                                               </div>
+                                         </div>
+                                        
+                                         <div class="form-group">
+                                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name">Email: <span class="required">*</span>
+                                            </label>
+                                            <div class="col-md-3 col-sm-3 col-xs-6">
+                                                <input type="text" name="email" value="$!user.email" readonly="readonly" placeholder="Email" class="form-control col-md-7 col-xs-12" data-parsley-type="email" data-parsley-type-message="Invalid Email address" data-parsley-maxlength="100" data-parsley-maxlength-message="Email at most 100 characters" required />
+
+                                            </div>
+                                            
+                                        </div>
+                                        
+                                        <div class="form-group">
+                                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="redisPort">Mobile Phone Number: <span class="required">*</span>
+                                            </label>
+                                            <div class="col-md-1 col-sm-1 col-xs-2">
+                                                <input type="text" name="mobile" value="$!user.mobile" readonly="readonly" placeholder="Mobile phone" class="form-control col-md-7 col-xs-12" data-parsley-maxlength="20" data-parsley-maxlength-message="phone number at most 20 characters"  required />
+
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-1 col-sm-1 col-xs-1 col-md-offset-3">
+                                           <input id="mystatus" name="mystatus" type="checkbox" #if($!user.status==1)checked#end data-off-color="danger" value="" data-on-text="Enabled" data-off-text="Disabled">
+                                        </div>  
+                                        
+                                         <div class="clearfix"></div>
+                                        <div class="ln_solid"></div>
+                                        <div class="form-group">
+                                            <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                                                  <button type="submit" class="btn btn-success" onclick="save()">Save</button>
+                                            </div>
+                                        </div>
+
+                                    </form>
+                                </div>
+                            </div>
+                                            </div>
+                     
+                     <div role="tabpanel" class="tab-pane fade" id="tab_content2" aria-labelledby="profile-tab"> 
+	                       <div class="x_panel">
+	                         <div class="col-md-6 col-xs-12">
+	                             <form class="form-horizontal form-label-left">
+	                                 <div class="form-group">
+	                                      <label class="control-label col-md-3 col-sm-3 col-xs-12">Please input domain: </label>
+	                                      <div class="col-md-4 col-sm-4 col-xs-6">
+	                                                <input type="text" name="selectedDomain" id="selectedDomain" placeholder="Input domain name" class="form-control col-md-6" style="float: left;" />
+	                                                <div id="autocomplete-container" style="position: relative; float: left; width: 400px; margin: 5px;"></div>
+	                                      </div>
+	                                      <button type="button" class="control-button col-md-1 col-sm-1 col-xs-2 btn btn-primary" onclick="addDomain()">Add</button>
+	
+	                                 </div>
+	                                 <div class="form-group">
+	                                             <label class="control-label col-md-3 col-sm-3 col-xs-3">$!user.username 's domain: </label>
+	                                             <div id="mydomains" class="col-md-9 col-sm-9 col-xs-9">
+	                                                   #foreach($myDomain in $myDomains)
+	                                                      <span id="$myDomain"><button type="button" class="btn btn-round btn-success">$myDomain</button><a href="#" onclick="removeDomain('$myDomain')"><span class="glyphicon glyphicon-remove" aria-hidden="true"  style="font-size: 1.6em"></span></a>,</span>
+	                                                   #end
+	                                             </div>
+	                                 </div>
+	                             </form>
+	                         </div>
+	                       </div>
+                             
+                                 </div>
+                      
+
+                                           
+                                        </div>
+                                    </div> 
+
+                        </div>
+                    </div>
+                    
+                    
+                    <script>
+                    
+                       $("[name='mystatus']").bootstrapSwitch();
+                       $("[name='mystatus']").on('switchChange.bootstrapSwitch', function(event, state) {  
+                          $('#userStatus').attr('value', state? 1 : 0);
+                       }); 
+                     
+                     $(function() { 
+                        $('#viewuser').submit(function(e) {
+                            e.preventDefault(); 
+                            if ( $(this).parsley().isValid() ) { 
+                                $.ajax({
+                                                type:'POST',
+                                                url:'#springUrl("")/user',
+                                                data: $("#viewuser").serialize()+'&status='+$('#userStatus').val(),
+                                                success: function(data){
+                                                    if (data == 'success') {
+                                                         window.location.href = "#springUrl('')/users"
+                                                    } else {
+                                                        $('#userErrors').text(data);
+                                                        $('#userErrorInfo').show();
+                                                    }
+                                                },
+                                                error:function(data){
+                                                    alert("Error, try it later!")
+                                                }
+                                            });
+                            }
+                        });
+                    });
+                    
+                    function addDomain(){
+                         var selectedDomain = $('#selectedDomain').val();
+
+                         if(!selectedDomain) {
+                            return;
+                         }
+
+                    		$.ajax({
+                                type:'POST',
+                                url:'#springUrl("")/users/$user.username/domain/'+selectedDomain,
+                                success: function(data){
+                                    if (data.indexOf("error")==-1) {
+                                       var content = '<span id="'+data+'"><button type="button" class="btn btn-round btn-success">'+data+'</button><a href="#" onclick="removeDomain(\''+data+'\')"><span class="glyphicon glyphicon-remove" aria-hidden="true"  style="font-size: 1.6em"></span></a>,</span>';
+                                       $('#mydomains').append(content);
+                                    } else {
+                                        
+                                        msg = $.parseJSON(data);
+                                        alert(msg.error);
+                                    }
+                                },
+                                error:function(data){
+                                    alert("Error, try it later!")
+                                }
+                            });
+                    
+                    }
+                    
+                   function removeDomain(domainName){
+                         var confirmMsg = "Do you want to remove "+domainName+" from User $user.username ?"
+                         if(confirm(confirmMsg)) {
+                    		$.ajax({
+                                type:'DELETE', 
+                                url:'#springUrl("")/users/$user.username/domain/'+domainName,
+                                success: function(data){
+                                    if (data == "success") {
+                                       $('#'+domainName).remove();
+                                    } else {
+                                        alert(data)
+                                    }
+                                },
+                                error:function(data){
+                                    alert("Error, try it later!")
+                                }
+                            });
+                         }
+                    }
+
+
+                        $(function () {
+                                       'use strict';
+
+                                       // Initialize autocomplete with custom appendTo:
+                                       $('#selectedDomain').autocomplete({
+                                           serviceUrl: '#springUrl('')/users/$user.username/domains',
+                                           appendTo: '#autocomplete-container',
+                                           noCache: true, 
+                                           onSelect: function (suggestion) {
+                                                $('#selectedDomain').attr('value', suggestion.value);
+                                           }
+
+                                       });
+                                   });
+
+                   </script>

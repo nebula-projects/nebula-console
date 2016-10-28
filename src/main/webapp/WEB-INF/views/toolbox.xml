@@ -1,0 +1,34 @@
+<toolbox>
+    <xhtml>true</xhtml>
+    <tool>
+        <key>cookie</key>
+        <scope>request</scope>
+        <class>org.apache.velocity.tools.view.tools.CookieTool</class>
+    </tool>
+    <tool>
+        <key>display</key>
+        <scope>application</scope>
+        <class>org.apache.velocity.tools.generic.DisplayTool</class>
+    </tool>
+    <tool>
+        <key>math</key>
+        <scope>application</scope>
+        <class>org.apache.velocity.tools.generic.MathTool</class>
+    </tool>
+    <tool>
+        <key>iter</key>
+        <scope>application</scope>
+        <class>org.apache.velocity.tools.generic.IteratorTool</class>
+    </tool>
+    <tool>
+        <key>sort</key>
+        <scope>application</scope>
+        <class>org.apache.velocity.tools.generic.SortTool</class>
+    </tool>
+
+    <tool>
+        <key>list</key>
+        <scope>application</scope>
+        <class>org.apache.velocity.tools.generic.ListTool</class>
+    </tool>
+</toolbox>
